@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MvcNetCoreUtilidades.Helpers;
 
 namespace MvcNetCoreUtilidades.Controllers
 {
     public class UploadFilesController : Controller
     {
-        private IWebHostEnvironment hostEnvironment;
+        private HelperPathProvider helper;
 
-        public UploadFilesController(IWebHostEnvironment hostEnvironment)
+        public UploadFilesController(HelperPathProvider helper)
         {
-            this.hostEnvironment = hostEnvironment;
+            this.helper = helper;
         }
 
         public IActionResult SubirFile()
@@ -19,17 +20,9 @@ namespace MvcNetCoreUtilidades.Controllers
         [HttpPost]
         public async Task<IActionResult> SubirFile(IFormFile fichero)
         {
-            //NECESITAMOS ES LA RUTA HACIA LA CARPETA wwwroot
-            string rootFolder =
-                this.hostEnvironment.WebRootPath;
             string fileName = fichero.FileName;
-            //CUANDO PENSAMOS EN FICHEROS Y SUS RUTAS 
-            //ESTAMOS PENSANDO EN ALGO PARECIDO A ESTO:
-            //C:\misficheros\carpeta\1.txt
-            //NET CORE NO ES WINDOWS Y ESTA RUTA ES DE WINDOWS.
-            //LAS RUTAS DE LINUX PUEDEN SER DISTINTA Y MACOS
-            //Debemos crear rutas con herramientas de Net Core: Path
-            string path = Path.Combine(rootFolder, "uploads", "users" ,fileName);
+            string path =
+                this.helper.MapPath(fileName, Folders.Images);
             //PARA SUBIR FICHEROS UTILIZAMOS Stream
             using (Stream stream = new FileStream(path, FileMode.Create))
             {
