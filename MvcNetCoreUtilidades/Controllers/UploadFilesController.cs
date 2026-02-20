@@ -23,6 +23,8 @@ namespace MvcNetCoreUtilidades.Controllers
             string fileName = fichero.FileName;
             string path =
                 this.helper.MapPath(fileName, Folders.Images);
+            string urlPath =
+                this.helper.MapUrlPath(fileName, Folders.Images);
             //PARA SUBIR FICHEROS UTILIZAMOS Stream
             using (Stream stream = new FileStream(path, FileMode.Create))
             {
@@ -30,7 +32,7 @@ namespace MvcNetCoreUtilidades.Controllers
             }
             ViewData["MENSAJE"] = "Fichero subido a "
                 + path;
-            ViewData["FILENAME"] = fileName;
+            ViewData["URLPATH"] = urlPath;
             return View();
         }
     }
