@@ -1,0 +1,36 @@
+﻿@section Scripts{
+    <script>
+        $(document).ready(function()  {
+            $("#botonloadcoches").click(function() {
+                //LLAMAMOS AL CONTROLLER Y AL IACTIONRESULT
+                $("#containercoches").load("/Coches/_CochesPartial");
+            })
+            $("#botonbuscarcar").click(function() {
+                var id = $("#cajaid").val();
+                //SI EN NUESTRO CONTROLLER, EL PARAMETRO 
+                //SE LLAMA id, LA PETICION LA HAREMOS ASI:
+                // controller/action/VALOR
+                //SI EL PARAMETRO SE LLAMA DE OTRA FORMA
+                //SE HACE TRADICIONAL
+                // controller/action?param1=valor
+                //SI SE COMBINAN:
+                // controller/action/VALOR_id?param1=valor
+                $("#detallescar")
+                .load("/Coches/_CochesDetails?idcoche=" + id);
+            })
+        })
+    </script>
+}
+
+<h2 style="color:blue">Index de AJAX con Coches</h2>
+<label>Introduzca Id Coche:</label>
+<input type="text" id="cajaid" class="form-control"/>
+<button id="botonbuscarcar" class="btn btn-danger">
+    Buscar coche
+</button>
+<div id="detallescar" style="background-color:lightgoldenrodyellow"></div>
+
+<button id="botonloadcoches" class="btn btn-warning">
+    Load Ajax Coches
+</button>
+<div id="containercoches" style="background-color:lightgreen"></div>
